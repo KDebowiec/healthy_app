@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
+    "exercise.apps.ExerciseConfig",
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'crispy_forms',

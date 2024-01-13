@@ -1,8 +1,7 @@
-from . import views
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('exercise/', views.ExerciseAPIView.as_view(), name='exercise'),
+    path('', include('exercise.urls')),
 ]
