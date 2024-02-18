@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     "exercise.apps.ExerciseConfig",
+    "nutrition.apps.NutritionConfig",
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'crispy_forms',
@@ -78,10 +79,14 @@ WSGI_APPLICATION = 'healthy_app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'exercises_and_diets',
+        'USER': 'postgres',
+        'PASSWORD': 'Kk505655133',
+
     }
 }
+
 
 
 # Password validation
@@ -126,5 +131,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 EXERCISE_API_KEY = '1aEedbgVNWs52Q7HCIpO1g==iBDI1nKR3U0e8ML4'
+
+NUTRITION_API_KEY = '2f87b1978a112e6a8ab753f7b28fe6ac'
+
+NUTRITION_ID = 'a7deb708'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'

@@ -1,30 +1,29 @@
 from rest_framework import views
+from rest_framework.response import Response
 from django.shortcuts import render
+from django.conf import settings
 import requests
-# from ..healthy_app.settings import EXERCISE_API_KEY
 from .forms import ExerciseForm
-
-
-# class ExerciseFormView(views.View):
-#     def get(self, request):
-#         return render(request, 'exercise_template.html')
-#
-#     def post(self, request):
-#         muscle = request.POST.get('muscle')
-#
-#         api_view = ExerciseAPIView()
-#         response = api_view.get(request, muscle=muscle)
+from django.http import JsonResponse
+from .models import Exercises
 
 
 class ExerciseAPIView(views.APIView):
-    def get_exercise(self, request, muscle=None):
+
+    def get(self, request):
         if request.method == 'GET':
             form = ExerciseForm(request.GET)
             return render(request, 'exercise/exercise.html', {'form': form})
-        elif request.method == 'POST':
-            muscle = request.form['muscle']
-            api_url = 'https://api.api-ninjas.com/v1/exercises?muscle={}'.format(muscle)
-            EXERCISE_API_KEY = '1aEedbgVNWs52Q7HCIpO1g==iBDI1nKR3U0e8ML4'
-            exercise_api_key = EXERCISE_API_KEY
-            response = requests.get(api_url, headers={'X-Api-Key': {exercise_api_key}})
-            print(response)
+
+    def post(self, request):
+        email = request.POST['email']
+        muscle = request.POST['muscle']
+        difficulty = request.POST['difficulty']
+        exercise_api_key = settings.EXERCISE_API_KEY
+        api_url = f'https://api.api-ninjas.com/v1/exercises?muscle={muscle}&difficulty={difficulty}'
+        response = requests.get(api_url, headers={'X-Api-Key': exercise_api_key})
+        api_data = response.json()
+        new_exercise = Exercises(email=email, descriptions=api_data)
+        new_exercise.save()
+        return render(request, 'exercise/show_exercises.html', {'api_data': api_data})
+
