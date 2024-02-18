@@ -13,81 +13,81 @@ from django.conf import settings
 from django.http import HttpResponse
 
 
-DPR = {
-  "size": 7,
-  "plan": {
-    "accept": {
-      "all": [
-        {
-          "health": [
-            "SOY_FREE",
-            "FISH_FREE",
-            "MEDITERRANEAN"
-          ]
-        }
-      ]
-    },
-    "fit": {
-      "ENERC_KCAL": {
-        "min": 1000,
-        "max": 2000
-      },
-    },
-    "sections": {
-      "Breakfast": {
-        "accept": {
-          "all": [
-            {
-              "dish": []
-            },
-            {
-              "meal": [
-                "breakfast"
-              ]
-            }
-          ]
-        },
-        "fit": {
-          "ENERC_KCAL": {}
-        }
-      },
-      "Lunch": {
-        "accept": {
-          "all": [
-            {
-              "dish": []
-            },
-            {
-              "meal": [
-                "lunch/dinner"
-              ]
-            }
-          ]
-        },
-        "fit": {
-          "ENERC_KCAL": {}
-        }
-      },
-      "Dinner": {
-        "accept": {
-          "all": [
-            {
-              "dish": []
-            },
-            {
-              "meal": [
-                "lunch/dinner"
-              ]
-            }
-          ]
-        },
-        "fit": {
-          "ENERC_KCAL": {}
-        }
-      }
-    }
-  }
-}
+# DPR = {
+#   "size": 7,
+#   "plan": {
+#     "accept": {
+#       "all": [
+#         {
+#           "health": [
+#             "SOY_FREE",
+#             "FISH_FREE",
+#             "MEDITERRANEAN"
+#           ]
+#         }
+#       ]
+#     },
+#     "fit": {
+#       "ENERC_KCAL": {
+#         "min": 1000,
+#         "max": 2000
+#       },
+#     },
+#     "sections": {
+#       "Breakfast": {
+#         "accept": {
+#           "all": [
+#             {
+#               "dish": []
+#             },
+#             {
+#               "meal": [
+#                 "breakfast"
+#               ]
+#             }
+#           ]
+#         },
+#         "fit": {
+#           "ENERC_KCAL": {}
+#         }
+#       },
+#       "Lunch": {
+#         "accept": {
+#           "all": [
+#             {
+#               "dish": []
+#             },
+#             {
+#               "meal": [
+#                 "lunch/dinner"
+#               ]
+#             }
+#           ]
+#         },
+#         "fit": {
+#           "ENERC_KCAL": {}
+#         }
+#       },
+#       "Dinner": {
+#         "accept": {
+#           "all": [
+#             {
+#               "dish": []
+#             },
+#             {
+#               "meal": [
+#                 "lunch/dinner"
+#               ]
+#             }
+#           ]
+#         },
+#         "fit": {
+#           "ENERC_KCAL": {}
+#         }
+#       }
+#     }
+#   }
+# }
 
 
 class NutritionAPIView(views.APIView):
@@ -116,10 +116,9 @@ class NutritionAPIView(views.APIView):
             }
             response = requests.post(api_url, data=json.dumps(diet_plan_request), headers=headers)
             response = response.json()
-            # return render(request, 'nutrition/show_nutrition.html', {'api_data': response})
             request.session['data'] = response
             request.session['size'] = size
-            return response, size
+            return render(request, 'nutrition/show_nutrition.html', {'data': response, 'size': size})
         else:
           print('Formularz nie działa')
           return HttpResponse('Błąd formularza')
