@@ -6,9 +6,10 @@
 
 <h2>Nutrition Data</h2>
 <ul>
-
-    <li>{{ api_data }}</li>
-
+    {{ inner }}
+    {% for recipe in recipes %}
+        <li>{{ recipe.name }}</li>
+    {% endfor %}
 </ul>
 
 

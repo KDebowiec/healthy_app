@@ -1,21 +1,3 @@
-import urllib
-
-# from rest_framework import views
-from django.shortcuts import render
-import requests
-import json
-# from ..healthy_app.settings import EXERCISE_API_KEY
-from .forms import NutritionGeneralForm
-from django.http import JsonResponse
-# api key =  f63a7889f0c15a63f57afff8a54cfadf
-# api id = 6ae86d85
-# request url = https://api.edamam.com/api/nutrition-details?app_id=f63a7889f0c15a63f57afff8a54cfadf&app_key=6ae86d85
-from py_edamam import Edamam
-from django.conf import settings
-from django.http import HttpResponse
-from django.views.generic import TemplateView
-
-
 class NutritionView(TemplateView):
     template_name = 'nutrition/show_nutrition.html'
 
@@ -65,13 +47,16 @@ class NutritionView(TemplateView):
                 recipe = requests.get(api_url, headers=headers2)
                 recipes.append(recipe.json())
 
-            return render(request, self.template_name, {'recipes': recipes})
 
         else:
             print('Formularz nie działa')
             return HttpResponse('Błąd formularza')
 
-        # class Recipe:
-        #     ingedire
-        #     image
+class Recipe:
+    name = 'test'
+    frog = 3
+
+recipe = Recipe
+recipes.append(recipe)
+return render(request, self.template_name, {'recipes': recipes})
 
