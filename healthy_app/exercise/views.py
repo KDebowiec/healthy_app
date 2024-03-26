@@ -6,14 +6,15 @@ import requests
 from .forms import ExerciseForm
 from django.http import JsonResponse
 from .models import Exercises
+from django.views.generic import TemplateView
 
 
-class ExerciseAPIView(views.APIView):
+class ExerciseView(TemplateView):
+    template_name = 'exercise/show_exercises.html'
 
     def get(self, request):
-        if request.method == 'GET':
-            form = ExerciseForm(request.GET)
-            return render(request, 'exercise/exercise.html', {'form': form})
+        form = ExerciseForm(request.GET)
+        return render(request, 'exercise/exercise.html', {'form': form})
 
     def post(self, request):
         email = request.POST['email']

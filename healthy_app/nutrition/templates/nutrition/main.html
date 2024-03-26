@@ -1,0 +1,42 @@
+{% extends 'nutrition/base.html' %}
+{% load static %}
+{% block space %}
+
+     <div class="row">
+         <div class="col-md-8">
+             {% if messages %}
+                {% for message in messages %}
+                    <div class ="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+             {% endif %}
+             {% block content %}{% endblock %}
+         </div>
+     </div>
+<div class="custom-container">
+    <div class="row text-center " style="width: 80rem">
+
+  <div class="card col-6 mb-10">
+    <img class="card1-img-top" src="{% static 'images/man.jpg' %}">
+    <div class="card-body">
+      <h5 class="card-title text-light">Dobierz Trening</h5>
+      <p class="card-text text-light">Pobierz indywidualny plan treningowy z opisami ćwiczeń:</p>
+      <button type="button" class="btn text-light" onclick="location.href='{% url 'exercise' %}'">Dobierz plan</button>
+    </div>
+  </div>
+
+  <div class="card col-6 mb-10">
+    <img class="card2-img-top" src="{% static 'images/steak.jpg' %}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title text-light">Dobierz Plan Żywieniowy</h5>
+      <p class="card-text text-light">Na podstawie podanych informacji dobierzesz indywidualną dietę na nawet 7 dni:</p>
+      <button type="button" class="btn text-light" onclick="location.href='{% url 'nutrition' %}'">Dobierz dietę</button>
+    </div>
+  </div>
+
+</div>
+</div>
+
+
+{% endblock %}

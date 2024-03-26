@@ -10,10 +10,14 @@ from django.http import JsonResponse
 # api key =  f63a7889f0c15a63f57afff8a54cfadf
 # api id = 6ae86d85
 # request url = https://api.edamam.com/api/nutrition-details?app_id=f63a7889f0c15a63f57afff8a54cfadf&app_key=6ae86d85
-from py_edamam import Edamam
+# from py_edamam import Edamam
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+
+
+class mainView(TemplateView):
+    template_name = 'nutrition/main.html'
 
 
 class NutritionView(TemplateView):
