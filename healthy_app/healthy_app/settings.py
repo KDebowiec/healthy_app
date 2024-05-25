@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -114,17 +114,27 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
+LANGUAGES = [
+    ('en', 'English'),
+    ('pl', 'Polish'),
+]
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT =  'C:/Users/karol/PycharmProjects/healthy_app/staticmedia'
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -138,3 +148,12 @@ NUTRITION_API_KEY = '2f87b1978a112e6a8ab753f7b28fe6ac'
 NUTRITION_ID = 'a7deb708'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.example.com'  # Adres serwera SMTP
+EMAIL_PORT = 587  # Port serwera SMTP
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'healthy.app@interia.pl'
+EMAIL_HOST_PASSWORD = 'healthy_app123'
+
+LOGOUT_REDIRECT_URL = "base"

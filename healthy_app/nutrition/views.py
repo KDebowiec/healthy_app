@@ -1,27 +1,31 @@
 import urllib
-
-# from rest_framework import views
 from django.shortcuts import render
 import requests
 import json
-# from ..healthy_app.settings import EXERCISE_API_KEY
-from .forms import NutritionGeneralForm
-from django.http import JsonResponse
-# api key =  f63a7889f0c15a63f57afff8a54cfadf
-# api id = 6ae86d85
-# request url = https://api.edamam.com/api/nutrition-details?app_id=f63a7889f0c15a63f57afff8a54cfadf&app_key=6ae86d85
-# from py_edamam import Edamam
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from .forms import NutritionGeneralForm
+from exercise.forms import ExerciseForm
+from users.forms import UserRegisterForm
+from bs4 import BeautifulSoup
+from django.contrib.auth.forms import UserCreationForm
+from .models import MealPlan
 
-
-class mainView(TemplateView):
+class MainView(TemplateView):
     template_name = 'nutrition/main.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['exercise_form'] = ExerciseForm()
+        context['nutrition_form'] = NutritionGeneralForm()
+        context['register_form'] = UserRegisterForm()
+        return context
 
 
 class NutritionView(TemplateView):
     template_name = 'nutrition/show_nutrition.html'
+
 
     def get(self, request):
         form = NutritionGeneralForm(request.GET)
@@ -30,7 +34,7 @@ class NutritionView(TemplateView):
     def post(self, request):
         form = NutritionGeneralForm(request.POST)
         if form.is_valid():
-            size = form.cleaned_data['size']
+            size = 1
             general_health = form.cleaned_data['general_health']
             general_min_kcal = form.cleaned_data['general_min_kcal']
             general_max_kcal = form.cleaned_data['general_max_kcal']
@@ -69,13 +73,36 @@ class NutritionView(TemplateView):
                 recipe = requests.get(api_url, headers=headers2)
                 recipes.append(recipe.json())
 
-            return render(request, self.template_name, {'recipes': recipes})
+            sorted_data = []
+
+            for element in recipes:
+                list_of_ingredients = []
+                for value in element['hits'][0]['recipe']['ingredients']:
+                    list_of_ingredients.append(value['text'])
+
+                def get_page_title(url):
+                    try:
+                        response = requests.get(url)
+                        response.raise_for_status()
+                        soup = BeautifulSoup(response.text, 'html.parser')
+                        page_title = soup.title.string
+
+                        return page_title
+                    except Exception as e:
+
+                        return 'tytul'
+
+                page_title = get_page_title(element['hits'][0]['recipe']['url'])
+
+                sorted_data.append(
+                        {'image': element['hits'][0]['recipe']['image'], 'url': element['hits'][0]['recipe']['url'],
+                         'ingredients': list_of_ingredients, 'page_title': page_title})
+
+            MealPlan.objects.create(user=self.request.user, meal_json=recipes)
+
+
+            return render(request, self.template_name, {'sorted_data': sorted_data})
 
         else:
             print('Formularz nie działa')
             return HttpResponse('Błąd formularza')
-
-        # class Recipe:
-        #     ingedire
-        #     image
-

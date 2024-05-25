@@ -1,21 +1,30 @@
-{% extends "exercise/base.html" %}
-{% block title %} twoje ćwiczenia {% endblock %}
-{% block content %}
-
-
-
-<h2>Nutrition Data</h2>
-<ul>
-    {{ inner }}
-    {% for recipe in recipes %}
-        <li>{{ recipe.name }}</li>
-    {% endfor %}
-</ul>
-
-
+{% extends 'nutrition/base.html' %}
+{% load static %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'nutrition/show_nutrition.css' %}">
 {% endblock %}
 
+{% block space %}
 
-<!--    {% for nutrition in api_data %}-->
-<!--        <li>{{ nutrition }} : {{ nutrition }}</li>-->
-<!--    {% endfor %}-->
+<div class="c-container">
+    <div class="row justify-content-center col-md-12 align-items-center">
+
+        {% for recipe in sorted_data %}
+            <div class="card col-md-4">
+                <img class="card-img-top" src= {{ recipe.image }} alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.page_title }}</h5>
+                    <h2>składniki:</h2>
+                    {% for ingredient in recipe.ingredients %}
+                    <ul>
+                        <li>{{ ingredient }}</li>
+                    </ul>
+                    {% endfor %}
+                    <a href= {{ recipe.url }}>link do pełnego przepisu</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
