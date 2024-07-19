@@ -1,8 +1,69 @@
 {% extends 'nutrition/base.html' %}
 {% load static %}
+{% block extrastyle %}
+
+    <link href="{% static 'ajax_datatable/css/style.css' %}" rel="stylesheet" />
+    <!-- link rel='stylesheet' href="{% static 'datatables.net-bs/css/dataTables.bootstrap.min.css' %}" -->
+    <link rel='stylesheet' href="{% static 'datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
+    <link rel='stylesheet' href="{% static 'datatables.net-buttons-bs/css/buttons.bootstrap.min.css' %}">
+
+{% endblock extrastyle %}
+
 {% block space %}
 
 <div class="content-section">
-
-
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+            <a class="nav-item nav-link" href="/show-plans">Your diet plans</a>
+            <a class="nav-item nav-link" href="/show-exercises">Your workouts</a>
+        </div>
+    </div>
 </div>
+
+<table id="datatable_exercises">
+</table>
+
+
+
+
+ <div class="modal" tabindex="-1" id="ModelRegister">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Zarejestruj się</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+            <div class="modal-body">
+                <form id="register-form-id" method="post" action="{% url 'users:ajax_register' %}">
+                    {% csrf_token %}
+                    {{ register_form }}
+                    <button class="btn btn-primary" type="submit" form="register-form-id">register</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zamknij</button>
+                </form>
+            </div>
+    </div>
+</div>
+    </div>
+{% endblock %}
+
+
+{% block extrajs %}
+
+    <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
+    <script src="{% static 'datatables.net/js/jquery.dataTables.min.js' %}"></script>
+    <!-- script src="{% static 'datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script -->
+    <script src="{% static 'datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
+    <script src="{% static 'jszip/dist/jszip.min.js' %}"></script>
+    <script src="{% static 'pdfmake/build/pdfmake.min.js' %}"></script>
+    <script src="{% static 'pdfmake/build/vfs_fonts.js' %}"></script>
+
+{% endblock %}

@@ -9,8 +9,9 @@ from .forms import NutritionGeneralForm
 from exercise.forms import ExerciseForm
 from users.forms import UserRegisterForm
 from bs4 import BeautifulSoup
-from django.contrib.auth.forms import UserCreationForm
 from .models import MealPlan
+from django.core.mail import send_mail
+from healthy_app.settings import EMAIL_HOST_USER
 
 class MainView(TemplateView):
     template_name = 'nutrition/main.html'
@@ -38,6 +39,8 @@ class NutritionView(TemplateView):
             general_health = form.cleaned_data['general_health']
             general_min_kcal = form.cleaned_data['general_min_kcal']
             general_max_kcal = form.cleaned_data['general_max_kcal']
+            email = form.cleaned_data['email']
+            print(general_max_kcal)
             diet_plan_request = {"size": size, "plan": {"accept": {"all": [{"health": general_health}]}, "fit": {"ENERC_KCAL": {"min": general_min_kcal, "max": general_max_kcal}}, "sections": {"Breakfast": {"accept": {"all": [{"meal": ["breakfast"]}]}}, "Lunch": {"accept": {"all": [{"meal": ["lunch/dinner"]}]}}, "Dinner": {"accept": {"all": [{"meal": ["lunch/dinner"]}]}}}}}
             nutrition_api_key = settings.NUTRITION_API_KEY
             nutrition_id = settings.NUTRITION_ID
@@ -57,7 +60,6 @@ class NutritionView(TemplateView):
                 list_of_links.append(data['selection'][i]['sections']['Dinner']['assigned'])
                 list_of_links.append(data['selection'][i]['sections']['Lunch']['assigned'])
 
-            print(list_of_links)
             headers2 = {
                 'accept': 'application/json',
                 'Accept-Language': 'en',
@@ -97,12 +99,26 @@ class NutritionView(TemplateView):
                 sorted_data.append(
                         {'image': element['hits'][0]['recipe']['image'], 'url': element['hits'][0]['recipe']['url'],
                          'ingredients': list_of_ingredients, 'page_title': page_title})
+                photo = element['hits'][0]['recipe']['image']
 
-            MealPlan.objects.create(user=self.request.user, meal_json=recipes)
+            print(sorted_data)
 
+            send_mail(
+                "Welcome to Healthy_App",
+                "You just got your diet meal plan on healthy_app, congrats!",
+                EMAIL_HOST_USER,
+                [email],
+                fail_silently=False,
+            )
+
+            MealPlan.objects.create(user=self.request.user, meal_json=recipes, general_health=general_health, general_min_kcal=general_min_kcal, general_max_kcal=general_max_kcal, photo=photo, page_title=page_title)
+
+            # send_mail
 
             return render(request, self.template_name, {'sorted_data': sorted_data})
 
         else:
             print('Formularz nie działa')
             return HttpResponse('Błąd formularza')
+
+

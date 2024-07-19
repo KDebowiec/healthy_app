@@ -1,0 +1,40 @@
+{% extends 'nutrition/base.html' %}
+{% load static %}
+{% block space %}
+
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="c-container">
+    <div class="row justify-content-center col-md-12 align-items-center">
+
+        {% for list in meals_memory %}
+            {% for element in list %}
+            <div class="card col-md-4">
+                {% with first_element=list.0 %}
+                <img class="card-img-top" src=" {{ first_element.image }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ first_element.page_title }}</h5>
+                    <h2>składniki:</h2>
+                    {% for ingredient in first_element.ingredients %}
+                    <ul>
+                        <li>{{ ingredient }}</li>
+                    </ul>
+                    {% endfor %}
+                    <a href= {{ first_element.url }}>link do pełnego przepisu</a>
+                    {% endwith %}
+                </div>
+            </div>
+        {% endfor %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

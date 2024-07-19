@@ -10,3 +10,4 @@ class NutritionGeneralForm(forms.Form):
     general_health = forms.MultipleChoiceField(label='general_health', choices=health_choices, widget=forms.CheckboxSelectMultiple)
     general_min_kcal = forms.IntegerField(label='general_min_kcal', required=True)
     general_max_kcal = forms.IntegerField(label='general_max_kcal', required=True)
+    email = forms.EmailField()

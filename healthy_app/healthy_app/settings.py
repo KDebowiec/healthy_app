@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+
+import django.core.mail.backends.smtp
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -42,6 +45,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ajax_datatable',
 ]
 
 MIDDLEWARE = [
@@ -130,6 +134,9 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 STATIC_ROOT =  'C:/Users/karol/PycharmProjects/healthy_app/staticmedia'
 
 STATICFILES_DIRS = [
@@ -149,11 +156,13 @@ NUTRITION_ID = 'a7deb708'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.example.com'  # Adres serwera SMTP
-EMAIL_PORT = 587  # Port serwera SMTP
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'healthy.app@interia.pl'
-EMAIL_HOST_PASSWORD = 'healthy_app123'
 
 LOGOUT_REDIRECT_URL = "base"
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'karoldebowiec@gmail.com'
+EMAIL_HOST_PASSWORD = 'zpudcmrbnbtxqezq'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
