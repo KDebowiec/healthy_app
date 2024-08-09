@@ -101,7 +101,6 @@ class NutritionView(TemplateView):
                          'ingredients': list_of_ingredients, 'page_title': page_title})
                 photo = element['hits'][0]['recipe']['image']
 
-            print(sorted_data)
 
             send_mail(
                 "Welcome to Healthy_App",
@@ -113,7 +112,10 @@ class NutritionView(TemplateView):
 
             MealPlan.objects.create(user=self.request.user, meal_json=recipes, general_health=general_health, general_min_kcal=general_min_kcal, general_max_kcal=general_max_kcal, photo=photo, page_title=page_title)
 
-            # send_mail
+            print(sorted_data)
+            first_meal = sorted_data[0]
+            second_meal = sorted_data[1]
+            first_meal = sorted_data[2]
 
             return render(request, self.template_name, {'sorted_data': sorted_data})
 

@@ -77,42 +77,42 @@ class ProfileView(LoginRequiredMixin, View):
 class ShowPlans(View):
     def get(self, request, *args, **kwargs):
         mealplans = MealPlan.objects.filter(user=request.user)
-        meals_memory = []
+        recipes = []
 
         for element in mealplans:
-            sorted_data = []
+            recipes.append(element.meal_json[0])
 
-            for e in element.meal_json:
-                list_of_ingredients = []
-                for value in e['hits'][0]['recipe']['ingredients']:
-                    list_of_ingredients.append(value['text'])
+        print(recipes )
 
-                def get_page_title(url):
-                    try:
-                        response = requests.get(url)
-                        response.raise_for_status()
-                        soup = BeautifulSoup(response.text, 'html.parser')
-                        page_title = soup.title.string
+        sorted_data = []
 
-                        return page_title
-                    except Exception as e:
+        for e in recipes:
+            list_of_ingredients = []
+            for value in e['hits'][0]['recipe']['ingredients']:
+                list_of_ingredients.append(value['text'])
 
-                        return 'tytul'
+            def get_page_title(url):
+                try:
+                    response = requests.get(url)
+                    response.raise_for_status()
+                    soup = BeautifulSoup(response.text, 'html.parser')
+                    page_title = soup.title.string
+
+                    return page_title
+                except Exception as e:
+
+                    return 'tytul'
 
             page_title = get_page_title(e['hits'][0]['recipe']['url'])
 
             sorted_data.append(
                 {'image': e['hits'][0]['recipe']['image'], 'url': e['hits'][0]['recipe']['url'],
                  'ingredients': list_of_ingredients, 'page_title': page_title})
+            photo = e['hits'][0]['recipe']['image']
 
-            general_health = element.general_health
-            general_min_kcal = element.general_min_kcal
-            general_max_kcal = element.general_max_kcal
-            sorted_data.append({'general_health': general_health, 'general_min_kcal': general_min_kcal, 'general_max_kcal':general_max_kcal})
+        print(sorted_data)
 
-            meals_memory.append(sorted_data)
-            # print(meals_memory)
-        return render(request, 'users/show_plans.html', {'meals_memory': meals_memory})
+        return render(request, 'users/show_plans.html', {'sorted_data': sorted_data})
 
 
 class ShowExercises(ListView):

@@ -3,9 +3,6 @@
 {% block extrastyle %}
 
     <link href="{% static 'ajax_datatable/css/style.css' %}" rel="stylesheet" />
-    <!-- link rel='stylesheet' href="{% static 'datatables.net-bs/css/dataTables.bootstrap.min.css' %}" -->
-    <link rel='stylesheet' href="{% static 'datatables.net-bs4/css/dataTables.bootstrap4.min.css' %}">
-    <link rel='stylesheet' href="{% static 'datatables.net-buttons-bs/css/buttons.bootstrap.min.css' %}">
 
 {% endblock extrastyle %}
 
@@ -23,10 +20,15 @@
     </div>
 </div>
 
-<table id="datatable_exercises">
+<div class="bg-white">
+    <table id="datatable_nutrition">
 </table>
+</div>
 
-
+<div class="bg-white">
+    <table id="datatable_workouts">
+</table>
+</div>
 
 
  <div class="modal" tabindex="-1" id="ModelRegister">
@@ -54,16 +56,40 @@
 
 {% block extrajs %}
 
-    <script src="{% static 'ajax_datatable/js/utils.js' %}"></script>
-    <script src="{% static 'datatables.net/js/jquery.dataTables.min.js' %}"></script>
-    <!-- script src="{% static 'datatables.net-bs/js/dataTables.bootstrap.min.js' %}"></script -->
-    <script src="{% static 'datatables.net-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
-    <script src="{% static 'datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
-    <script src="{% static 'datatables.net-buttons/js/buttons.print.min.js' %}"></script>
-    <script src="{% static 'datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
-    <script src="{% static 'datatables.net-buttons-bs/js/buttons.bootstrap.min.js' %}"></script>
-    <script src="{% static 'jszip/dist/jszip.min.js' %}"></script>
-    <script src="{% static 'pdfmake/build/pdfmake.min.js' %}"></script>
-    <script src="{% static 'pdfmake/build/vfs_fonts.js' %}"></script>
+    <script language="javascript">
+
+        $(document).ready(function() {
+            AjaxDatatableViewUtils.initialize_table(
+                $('#datatable_nutrition'),
+                "{% url 'users:ajax_datatable_nutrition' %}",
+                {
+                    // extra_options (example)
+                    processing: false,
+                    autoWidth: false,
+                    full_row_select: true,
+                    scrollX: false
+                }, {
+                    // extra_data
+                    // ...
+                },
+            );
+
+             AjaxDatatableViewUtils.initialize_table(
+                $('#datatable_workouts'),
+                "{% url 'users:ajax_datatable_workouts' %}",
+                {
+                    // extra_options (example)
+                    processing: false,
+                    autoWidth: false,
+                    full_row_select: true,
+                    scrollX: false
+                }, {
+                    // extra_data
+                    // ...
+                },
+            );
+        });
+
+    </script>
 
 {% endblock %}

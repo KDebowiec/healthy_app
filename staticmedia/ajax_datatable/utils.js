@@ -1,8 +1,9 @@
 
 $(document).ready(function() {
+console.log('test')
     AjaxDatatableViewUtils.initialize_table(
-        $('#datatable_exercises'),
-        "{% url 'ajax_datatable_exercises' %}",
+        $('#datatable_nutrition'),
+        "{% url 'ajax_datatable_nutrition' %}",
         {
             processing: true,
             autoWidth: false,
