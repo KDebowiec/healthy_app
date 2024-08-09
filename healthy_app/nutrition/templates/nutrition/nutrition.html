@@ -1,0 +1,18 @@
+{% extends "nutrition/base.html" %}
+{% block title %} znajdź plan żywienia {% endblock %}
+{% block space %}
+
+<div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+
+                {{ form }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Show meal plan</button>
+            </div>
+        </form>
+</div>
+
+{% endblock %}

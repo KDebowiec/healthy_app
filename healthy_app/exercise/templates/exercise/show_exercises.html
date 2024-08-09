@@ -1,0 +1,14 @@
+{% extends 'nutrition/base.html' %}
+{% block title %} twoje ćwiczenia {% endblock %}
+{% block space %}
+
+<h2></h2>
+<div class="exercises-list">
+<ul>
+    {% for exercise in api_data %}
+        <li>{{ exercise.name }} - {{ exercise.instructions }}</li>
+    {% endfor %}
+</ul>
+</div>
+
+{% endblock %}

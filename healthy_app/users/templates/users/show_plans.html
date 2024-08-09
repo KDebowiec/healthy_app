@@ -1,0 +1,36 @@
+
+{% load static %}
+{% block space %}
+
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="c-container">
+    <div class="row justify-content-center col-md-12 align-items-center">
+
+        {% for recipe in sorted_data %}
+            <div class="card col-md-4">
+                <img class="card-img-top" src= {{ recipe.image }} alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{ recipe.page_title }}</h5>
+                    <h2>składniki:</h2>
+                    {% for ingredient in recipe.ingredients %}
+                    <ul>
+                        <li>{{ ingredient }}</li>
+                    </ul>
+                    {% endfor %}
+                    <a href= {{ recipe.url }}>link do pełnego przepisu</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

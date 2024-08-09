@@ -1,0 +1,95 @@
+{% extends 'nutrition/base.html' %}
+{% load static %}
+{% block extrastyle %}
+
+    <link href="{% static 'ajax_datatable/css/style.css' %}" rel="stylesheet" />
+
+{% endblock extrastyle %}
+
+{% block space %}
+
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+            <p class="text-secondary">{{ user.email }}</p>
+            <a class="nav-item nav-link" href="/show-plans">Your diet plans</a>
+            <a class="nav-item nav-link" href="/show-exercises">Your workouts</a>
+        </div>
+    </div>
+</div>
+
+<div class="bg-white">
+    <table id="datatable_nutrition">
+</table>
+</div>
+
+<div class="bg-white">
+    <table id="datatable_workouts">
+</table>
+</div>
+
+
+ <div class="modal" tabindex="-1" id="ModelRegister">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Zarejestruj się</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+            <div class="modal-body">
+                <form id="register-form-id" method="post" action="{% url 'users:ajax_register' %}">
+                    {% csrf_token %}
+                    {{ register_form }}
+                    <button class="btn btn-primary" type="submit" form="register-form-id">register</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zamknij</button>
+                </form>
+            </div>
+    </div>
+</div>
+    </div>
+{% endblock %}
+
+
+{% block extrajs %}
+
+    <script language="javascript">
+
+        $(document).ready(function() {
+            AjaxDatatableViewUtils.initialize_table(
+                $('#datatable_nutrition'),
+                "{% url 'users:ajax_datatable_nutrition' %}",
+                {
+                    // extra_options (example)
+                    processing: false,
+                    autoWidth: false,
+                    full_row_select: true,
+                    scrollX: false
+                }, {
+                    // extra_data
+                    // ...
+                },
+            );
+
+             AjaxDatatableViewUtils.initialize_table(
+                $('#datatable_workouts'),
+                "{% url 'users:ajax_datatable_workouts' %}",
+                {
+                    // extra_options (example)
+                    processing: false,
+                    autoWidth: false,
+                    full_row_select: true,
+                    scrollX: false
+                }, {
+                    // extra_data
+                    // ...
+                },
+            );
+        });
+
+    </script>
+
+{% endblock %}

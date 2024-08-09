@@ -1,0 +1,17 @@
+{% extends 'nutrition/base.html' %}
+{% block title %} twoje ćwiczenia {% endblock %}
+{% block space %}
+
+<h2></h2>
+<div class="exercises-list">
+    Liczba obiektów: {{ object_list.count }}
+<ul>
+
+
+    {% for exercise in object_list %}
+        <li>{{ exercise }}</li>
+    {% endfor %}
+</ul>
+</div>
+
+{% endblock %}

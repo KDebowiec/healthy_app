@@ -1,0 +1,89 @@
+{% extends 'nutrition/base.html' %}
+{% load static %}
+{% block space %}
+
+     <div class="row">
+         <div class="col-md-8">
+             {% if messages %}
+                {% for message in messages %}
+                    <div class ="alert alert-{{ message.tags }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+             {% endif %}
+             {% block content %}{% endblock %}
+         </div>
+     </div>
+<div class="custom-container">
+    <div class="row text-center " style="width: 80rem">
+
+  <div class="card col-6 mb-10">
+    <img class="card1-img-top" src="{% static 'images/man.jpg' %}">
+    <div class="card-body">
+      <h5 class="card-title text-light">Dobierz Trening</h5>
+      <p class="card-text text-light">Pobierz indywidualny plan treningowy z opisami ćwiczeń:</p>
+      <a href="" data-bs-toggle="modal" data-bs-target="#ModelExercise">Dobierz Plan</a>
+    </div>
+  </div>
+
+  <div class="card col-6 mb-10">
+    <img class="card2-img-top" src="{% static 'images/steak.jpg' %}" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title text-light">Dobierz Plan Żywieniowy</h5>
+      <p class="card-text text-light">Na podstawie podanych informacji dobierzesz indywidualną dietę na nawet 7 dni:</p>
+      <a href="" data-bs-toggle="modal" data-bs-target="#ModelNutrition">Dobierz dietę</a>
+    </div>
+  </div>
+
+
+
+</div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="ModelExercise">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Wypełnij formularz</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" id="exercise-form-id" action="{% url 'exercise' %}">
+            {% csrf_token %}
+            {{ exercise_form }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" form="exercise-form-id">wyślij</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="ModelNutrition">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Wypełnij formularz</h5>
+        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form method="post" id="nutrition-form-id" action="{% url 'get_nutrition' %}">
+            {% csrf_token %}
+            {{ nutrition_form }}
+          </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" type="submit" form="nutrition-form-id">wyślij</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">zamknij</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
