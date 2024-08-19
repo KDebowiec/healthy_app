@@ -1,0 +1,22 @@
+
+{% load static %}
+{% block space %}
+
+<div class="content-section">
+    <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.image.url }}">
+        <div class="media-body">
+            <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+        </div>
+    </div>
+</div>
+
+<div class="c-container">
+    <div class="row justify-content-center col-md-12 align-items-center">
+        {{ meal_plan }}
+
+    </div>
+</div>
+
+{% endblock %}
