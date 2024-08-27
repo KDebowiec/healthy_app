@@ -16,6 +16,8 @@ from nutrition.models import MealPlan
 from exercise.models import Exercises
 from bs4 import BeautifulSoup
 import requests
+from django.shortcuts import render, get_object_or_404
+from django.views.generic import DetailView
 
 
 class AjaxRegisterView(View):
@@ -120,3 +122,8 @@ class ShowExercises(ListView):
     template_name = 'users/show_workouts.html'
     def get_queryset(self):
         return Exercises.objects.filter(user=self.request.user)
+
+
+class MealPlanDetailView(DetailView):
+    model = MealPlan
+    template_name = 'meal_plan_detail.html'

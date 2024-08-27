@@ -1,8 +1,8 @@
 from . import views
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.contrib.auth.views import LogoutView
-from .views import ProfileView, ShowPlans, ShowExercises
+from .views import ProfileView, ShowPlans, ShowExercises, MealPlanDetailView
 from . import ajax_datatable_views
 app_name = 'users'
 
@@ -15,4 +15,5 @@ urlpatterns = [
     path('show-exercises/', ShowExercises.as_view(), name='show-exercises'),
     path('ajax/datatable/nutrition/', ajax_datatable_views.NutritionAjaxDatatableView.as_view(), name="ajax_datatable_nutrition"),
     path('ajax/datatable/workouts/', ajax_datatable_views.WorkoutsAjaxDatatableView.as_view(), name="ajax_datatable_workouts"),
+    path('meal-plan/<int:pk>/', MealPlanDetailView.as_view(), name="meal_plan_detail"),
 ]
